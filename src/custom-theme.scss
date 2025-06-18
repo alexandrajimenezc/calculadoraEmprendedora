@@ -1,0 +1,73 @@
+@use '@angular/material' as mat;
+@use '@angular/material/core' as mat-core;
+
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+
+// Paleta primaria
+$custom-primary: mat-core.define-palette((
+  50: #fde6f4,
+  100: #fabde5,
+  200: #f692d6,
+  300: #f267c7,
+  400: #ef4fbd,
+  500: #E851B8,
+  600: #e14aa9,
+  700: #d84397,
+  800: #d03d86,
+  900: #c22f68,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+));
+
+// Paleta secundaria
+$custom-accent: mat-core.define-palette((
+  50: #ffece4,
+  100: #ffd0b8,
+  200: #ffb08a,
+  300: #ff905b,
+  400: #ff7838,
+  500: #E86851,
+  600: #cc563f,
+  700: #b14733,
+  800: #953929,
+  900: #772a1f,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+));
+
+$custom-warn: mat-core.define-palette(mat.$red-palette);
+
+// Tema personalizado
+$custom-theme: mat-core.define-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+    warn: $custom-warn,
+  ),
+  typography: mat-core.define-typography-config((
+    fontFamily: 'Chango, sans-serif'
+  ))
+));
+
+// Aplicar tema global
+@include mat.all-component-themes($custom-theme);

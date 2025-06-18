@@ -1,0 +1,389 @@
+<div class="app-container">
+  <mat-card class="calculator-container">
+    <div class="paraparatech-credit">
+      <!-- <img src="../../assets/PARAPARATECH.png" alt="ParaparaTech Logo" /> -->
+      <span
+        >Una solución de <strong>soygeekgirl</strong> como
+        <strong>ParaparaTech</strong> 💡</span
+      >
+    </div>
+
+    <div>
+      <p>
+        🎨 Calculadora de Costos para Papelería Creativa Gratis, práctica y
+        pensada para ti Esta herramienta ha sido creada con mucho cariño para
+        que tú, que diseñas y vendes papelería personalizada (stickers, vinilos,
+        toppers, etiquetas, etc.), puedas calcular tus precios de forma clara,
+        profesional y sin complicarte.
+      </p>
+      Aquí puedes:
+      <ul>
+        <li>Calcular el costo real por unidad o proyecto</li>
+        <li>
+          Incluir materiales, tiempo, mano de obra y margen Tomar decisiones de
+          precio más claras
+        </li>
+        <li>🚫 No necesitas pagar nada</li>
+        <li>
+          Pero si te ayuda, puedes invitarme un café virtual y contribuir a que
+          este proyecto siga siendo gratuito, útil y con más funciones nuevas
+        </li>
+        <li>
+          💜 Haz tu donación desde 5$ en
+          <a href="https://ko-fi.com/soygeekgirl" target="_blank"
+            >ko-fi soygeekgirl
+          </a>
+        </li>
+        <li>
+          Usa desde la web en ordenador/pc para que puedas aprovechar guardar en
+          local ...(se guarda automático)
+        </li>
+      </ul>
+    </div>
+    <div style="text-align: center; margin-top: 1.5rem">
+      <a
+        href="https://ko-fi.com/soygeekgirl"
+        target="_blank"
+        class="donate-btn"
+      >
+        ☕ Invítame un café en Ko-fi
+      </a>
+    </div>
+
+    <h1>CONFIGURACIÓN BASE</h1>
+    <mat-card class="calculator-section">
+      <mat-card>
+        <mat-form-field>
+          <mat-label>Horas de trabajo semanales</mat-label>
+          <input matInput [(ngModel)]="jobHour" (ngModelChange)="calculateFixedCostWithProfit()" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>% Beneficio</mat-label>
+          <input matInput [(ngModel)]="marginPercent" (ngModelChange)="calculateFixedCostWithProfit()"/>
+        </mat-form-field>
+        <h2>Gastos fijos</h2>
+        <div class="container-btn">
+          <button (click)="addCustomService()">Añadir Gasto</button>
+        </div>
+        <div
+          *ngFor="let service of services; let i = index"
+          class="material-card"
+        >
+          <mat-form-field>
+            <mat-label>Nombre del gasto o servicio</mat-label>
+            <input matInput [(ngModel)]="service.name" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Tipo</mat-label>
+            <mat-select [(ngModel)]="service.type">
+              <mat-option
+                *ngFor="let type of typeServices"
+                [value]="type.name"
+                >{{ type.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Costo del servicio</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="service.price"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Dias de uso</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="service.days"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeService(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+      <p>
+        <strong>Gastos fijos por unidad:</strong>
+
+        {{ calculateFixedCostWithProfit() | number : "1.2-2" }} €
+      </p>
+    </mat-card>
+    <mat-card class="calculator-section">
+      <mat-card>
+        <h2>Depreciación de equipos</h2>
+        <div class="container-btn">
+          <button (click)="addMachine()">Añadir Equipo</button>
+        </div>
+        <div
+          *ngFor="let machine of machines; let i = index"
+          class="material-card"
+        >
+          <mat-form-field>
+            <mat-label>Nombre del Equipo</mat-label>
+            <input matInput [(ngModel)]="machine.name" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Tipo de Maquina</mat-label>
+            <mat-select [(ngModel)]="machine.model">
+              <mat-option
+                *ngFor="let type of typesMachines"
+                [value]="type.name"
+                >{{ type.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Costo de la maquina</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="machine.price"
+              (ngModelChange)="calculateDepreciation(i)"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Vida útil de la maquina</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="machine.years"
+              (ngModelChange)="calculateDepreciation(i)"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Uso de la maquina por mes</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="machine.lifespan"
+              (ngModelChange)="calculateDepreciation(i)"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Costo de Depreciación</mat-label>
+            <input
+              matInput
+              type="number"
+              readonly="true"
+              [(ngModel)]="machine.depreciation"
+              name="servicesQty{{ i }}"
+            />
+          </mat-form-field>
+          <button mat-icon-button (click)="removeMachine(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </mat-card>
+  </mat-card>
+
+  <mat-card class="calculator-container">
+    <h1>Calculadora de Costos de Emprendimiento</h1>
+
+    <!-- Datos generales -->
+    <h2>{{ projectName }}</h2>
+    <mat-card>
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="projectName" />
+      </mat-form-field>
+    </mat-card>
+    <mat-card class="calculator-section">
+      <mat-card>
+        <h2>Materiales</h2>
+        <div class="container-btn">
+          <button (click)="addCustomMaterial()">Añadir material</button>
+        </div>
+
+        <div
+          *ngFor="let material of materials; let i = index"
+          class="material-card"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              [(ngModel)]="material.name"
+              name="materialName{{ i }}"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Tipo</mat-label>
+            <mat-select [(ngModel)]="material.type" name="materialType{{ i }}">
+              <mat-option
+                *ngFor="let type of typesMaterial"
+                [value]="type.value"
+                >{{ type.label }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          @if(material.type =='paquete'){
+          <mat-form-field>
+            <mat-label>Cantidad del paquete</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="material.quantity"
+              name="materialQty{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Cantidad usada</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="material.quantityUse"
+              name="materialQty{{ i }}"
+            />
+          </mat-form-field>
+          } @if(material.type =='peso'){
+          <mat-form-field>
+            <mat-label>Peso</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="material.weight"
+              name="materialWeigth{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Unidad de medida</mat-label>
+            <mat-select
+              [(ngModel)]="material.units"
+              name="materialUnits{{ i }}"
+            >
+              <mat-option *ngFor="let type of typesUnit" [value]="type.value">{{
+                type.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          } @if(material.type =='cuadrado'){
+          <mat-form-field>
+            <mat-label>Tamaño de hoja</mat-label>
+            <mat-select
+              (ngModelChange)="calculateCostByType(material)"
+              [(ngModel)]="material.sheetType"
+              name="materialType{{ i }}"
+            >
+              <mat-option *ngFor="let type of sheetTypes" [value]="type">{{
+                type.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Ancho</mat-label>
+            <input
+              matInput
+              [(ngModel)]="material.width"
+              (ngModelChange)="calculateCostByType(material)"
+              name="materialWidth{{ i }}"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Largo</mat-label>
+            <input
+              matInput
+              [(ngModel)]="material.height"
+              (ngModelChange)="calculateCostByType(material)"
+              name="materialHeight{{ i }}"
+            />
+          </mat-form-field>
+          Puedes crear aproximadamente {{ this.manyCuadrados }} en el tamaño de
+          hoja seleccionado. } @if(material.type =='unidad'){
+          <mat-form-field>
+            <mat-label>Unidades</mat-label>
+            <input
+              matInput
+              [(ngModel)]="material.single"
+              name="materialName{{ i }}"
+            />
+          </mat-form-field>
+          } @if(material.type =='metro'){
+          <mat-form-field>
+            <mat-label>Metros</mat-label>
+            <input
+              matInput
+              [(ngModel)]="material.name"
+              name="materialName{{ i }}"
+            />
+          </mat-form-field>
+          }
+
+          <mat-form-field>
+            <mat-label>Precio</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="material.price"
+              name="materialPrice{{ i }}"
+            />
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" (click)="removeMaterial(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+
+      <mat-card>
+        <h2>Insumos</h2>
+        <div class="container-btn">
+          <button (click)="addInsumo()">Añadir insumo</button>
+        </div>
+
+        <div *ngFor="let insumo of insumos; let j = index" class="insumo-card">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              [(ngModel)]="insumo.name"
+              name="insumoName{{ j }}"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Precio</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="insumo.price"
+              name="insumoPrice{{ j }}"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Rendimiento</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="insumo.yield"
+              name="insumoYield{{ j }}"
+            />
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" (click)="removeInsumo(j)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+
+      <mat-card>
+        <h2>Resumen</h2>
+        <p>
+          <strong>Costo total por unidad:</strong>
+          {{ calculateCostPerUnit() | number : "1.2-2" }} €
+        </p>
+      </mat-card>
+    </mat-card>
+  </mat-card>
+</div>

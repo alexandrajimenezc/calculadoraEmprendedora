@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+:host {
+  display: block;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  padding: 1.5rem;
+  background: #fff5fb;
+  background-image: radial-gradient(
+      circle at top left,
+      #fbe5f3 20%,
+      transparent 20.1%
+    ),
+    radial-gradient(circle at bottom right, #fbe5f3 20%, transparent 20.1%);
+  background-size: 15px 15px;
+}
+
+mat-card {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #fbd4ec;
+  border-radius: 16px;
+  border: 2px dashed #e89ea4;
+  box-shadow: 0 8px 20px rgba(232, 81, 184, 0.1);
+
+  &.calculator-section {
+    margin-bottom: 2.5rem;
+    border: 2px dashed #e0a2c3;
+    background: #fff0fa;
+  }
+
+  button {
+    margin-bottom: 1rem;
+  }
+
+  .material-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #e851b8;
+    background: #fdf1f7;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: inset 0 0 0 1px #f2c6da;
+
+    mat-form-field {
+      flex: 1 1 250px;
+      min-width: 200px;
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button:not(.mat-icon-button) {
+  background: linear-gradient(135deg, #e8515e, #e86851);
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: 500;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 8px rgba(232, 104, 81, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:not(.mat-icon-button):hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(232, 81, 94, 0.3);
+}
+button > mat-icon {
+  position: relative;
+  left: -12px;
+  top: -4px;
+}
+
+.calculator-container {
+  background: #fff0fa;
+  border: 2px dashed #dc92c5;
+  // padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 20px rgba(232, 81, 184, 0.15);
+  // margin-bottom: 2rem;
+  animation: fadeIn 0.8s ease-out;
+  width: 80%;
+}
+
+.calculator-container p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #5e2b45;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.calculator-container h1 {
+  font-family: "Chango", cursive;
+  color: #e851b8;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(232, 81, 184, 0.1);
+  text-align: center;
+}
+
+.calculator-container ul {
+  list-style: none;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.calculator-container ul li::before {
+  content: "✨ ";
+  margin-right: 0.5rem;
+}
+
+.calculator-container li {
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+  color: #4e3e57;
+  font-weight: 500;
+}
+
+.calculator-container > a {
+  color: #e851b8;
+  font-weight: bold;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.calculator-container > a:hover {
+  color: #d151e8;
+  text-shadow: 0 0 5px #e88351;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.donate-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #e851b8, #d151e8);
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.donate-btn:hover {
+  background: linear-gradient(135deg, #d151e8, #e89ea4);
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(209, 81, 232, 0.25);
+}
+::ng-deep
+  .mat-mdc-form-field
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #ffe1f0 !important; // o tu color deseado
+  border-radius: 10px;
+}
+
+::ng-deep .mat-mdc-form-field .mdc-text-field__input {
+  color: #4e3e57 !important; // texto dentro del input
+}
+
+/* Label normal (cuando está dentro del input) */
+::ng-deep .mat-mdc-form-field .mdc-floating-label {
+  color: #9c4a7c !important; /* rosa oscuro bonito */
+}
+
+/* Label flotante (cuando el input tiene foco o está lleno) */
+::ng-deep .mat-mdc-form-field .mdc-floating-label--float-above {
+  color: #e851b8 !important; /* rosa fuerte que va con tu estética */
+}
+
+/* Borde en foco (opcional, para que no sea azul) */
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline {
+  border-color: #e851b8 !important;
+}
+
+/* Alternativa para el borde inferior si estás usando underline en lugar de outline */
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-line-ripple {
+  background-color: #e851b8 !important;
+}
+.container-btn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+// .paraparatech-credit {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 0.5rem;
+//   margin-top: 2rem;
+//   font-family: 'Segoe UI', sans-serif;
+//   font-size: 0.95rem;
+//   color: #6a2e4d;
+//   background: #ffe6f2;
+//   padding: 0.8rem 1.2rem;
+//   border-radius: 1rem;
+//   box-shadow: 0 2px 6px rgba(232, 81, 184, 0.15);
+//   text-align: center;
+//   max-width: 100%;
+// }
+
+// .paraparatech-credit img {
+//   height: 32px;
+//   width: auto;
+//   border-radius: 50%;
+//   box-shadow: 0 0 0 2px #fff;
+// }

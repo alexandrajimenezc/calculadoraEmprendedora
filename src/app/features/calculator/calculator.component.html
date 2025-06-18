@@ -1,0 +1,81 @@
+<div class="container">
+  <mat-card class="card">
+    <h2>🧮 Calculadora de Productos de Papelería</h2>
+
+    <form (ngSubmit)="calcular()" #form="ngForm" class="form">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Nombre del producto</mat-label>
+        <input matInput name="nombre" [(ngModel)]="producto.nombre" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" name="cantidad" [(ngModel)]="producto.cantidad" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Tamaño</mat-label>
+        <mat-select name="tipoTamanio" [(ngModel)]="producto.tipoTamanio">
+          <mat-option value="A3">A3 (29.7x42)</mat-option>
+          <mat-option value="A4">A4 (21x29.7)</mat-option>
+          <mat-option value="Carta">Carta (21.6x27.9)</mat-option>
+          <mat-option value="Personalizado">Personalizado</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="producto.tipoTamanio === 'Personalizado'" class="row">
+        <mat-form-field appearance="outline" class="half">
+          <mat-label>Ancho (cm)</mat-label>
+          <input matInput type="number" name="ancho" [(ngModel)]="producto.ancho">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half">
+          <mat-label>Alto (cm)</mat-label>
+          <input matInput type="number" name="alto" [(ngModel)]="producto.alto">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Precio del material por hoja/cm²</mat-label>
+        <input matInput type="number" name="precioMaterial" [(ngModel)]="producto.precioMaterial" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Minutos de mano de obra</mat-label>
+        <input matInput type="number" name="tiempoMin" [(ngModel)]="producto.tiempoMin" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Costo por hora</mat-label>
+        <input matInput type="number" name="costoHora" [(ngModel)]="producto.costoHora" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Tipo de corte</mat-label>
+        <mat-select name="tipoCorte" [(ngModel)]="producto.tipoCorte">
+          <mat-option value="Manual">Manual</mat-option>
+          <mat-option value="Cricut">Cricut</mat-option>
+          <mat-option value="Cameo">Cameo</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Otros costos (adhesivos, tinta...)</mat-label>
+        <input matInput type="number" name="otrosCostos" [(ngModel)]="producto.otrosCostos">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>% Margen de ganancia</mat-label>
+        <input matInput type="number" name="margen" [(ngModel)]="producto.margen">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="button">Calcular</button>
+    </form>
+  </mat-card>
+
+  <mat-card class="result" *ngIf="producto.resultado">
+    <h3>Resultado</h3>
+    <p>Costo unitario: <strong>{{ producto.resultado.costoUnitario | currency }}</strong></p>
+    <p>Costo total: <strong>{{ producto.resultado.costoTotal | currency }}</strong></p>
+  </mat-card>
+</div>
