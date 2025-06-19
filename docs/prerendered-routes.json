@@ -1,8 +1,0 @@
-{
-  "routes": {
-    "/calculadoraEmprendedora": {},
-    "/calculadoraEmprendedora/calculadora": {},
-    "/calculadoraEmprendedora/calcular": {},
-    "/calculadoraEmprendedora/historial": {}
-  }
-}
