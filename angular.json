@@ -23,6 +23,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "baseHref": "/calculadoraEmprendedora/",
             "assets": [
               {
                 "glob": "**/*",
@@ -47,6 +48,7 @@
           },
           "configurations": {
             "production": {
+            "baseHref": "/calculadoraEmprendedora/",
               "budgets": [
                 {
                   "type": "initial",

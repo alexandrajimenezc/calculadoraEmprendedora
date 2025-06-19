@@ -261,7 +261,7 @@ public calculateFixedCostWithProfit(): number {
         if (data.sheetType && data.width > 0 && data.height > 0) {
           const areaHoja = data.sheetType.ancho * data.sheetType.largo;
           const areaItem = data.width * data.height;
-          this.manyCuadrados=areaHoja / areaItem
+          this.manyCuadrados= (areaHoja / areaItem)
           return this.manyCuadrados ;
         }
         return 0;
