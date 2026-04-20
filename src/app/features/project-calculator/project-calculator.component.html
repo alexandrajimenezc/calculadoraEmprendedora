@@ -312,6 +312,24 @@
                       }
                     </div>
                   </div>
+                  <div class="config-card">
+                    <div class="config-card-title"><mat-icon>public</mat-icon> {{ t('Config_Regional') }}</div>
+                    <div class="mat-grid" style="padding:0">
+                       <div class="field-group">
+                         <label>{{ t('Config_Language') }}</label>
+                         <mat-select class="slim-select" [(ngModel)]="config.language" (selectionChange)="saveConfig()">
+                           <mat-option value="es">Español 🇪🇸</mat-option>
+                           <mat-option value="pt">Português 🇵🇹</mat-option>
+                         </mat-select>
+                       </div>
+                       <div class="field-group">
+                         <label>{{ t('Config_Currency') }}</label>
+                         <mat-select class="slim-select" [(ngModel)]="config.currency" (selectionChange)="saveConfig()">
+                           <mat-option *ngFor="let c of getAvailableCurrencies()" [value]="c">{{ c }} ({{ i18n.getCurrencySymbol(c) }})</mat-option>
+                         </mat-select>
+                       </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="section-divider" style="margin-top:2rem"><mat-icon>computer</mat-icon><span>Software</span></div>

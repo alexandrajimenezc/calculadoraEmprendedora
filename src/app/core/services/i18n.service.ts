@@ -206,4 +206,8 @@ export class I18nService {
   getCurrencySymbol(code: string): string {
     return this.currencies[code] || '€';
   }
+
+  getAvailableCurrencies(): string[] {
+    return Object.keys(this.currencies);
+  }
 }

@@ -77,7 +77,7 @@ export class ProjectCalculatorComponent implements OnInit, OnDestroy {
     private exporter: ExportService,
     private pdf: PdfService,
     private snackBar: MatSnackBar,
-    private i18n: I18nService,
+    public i18n: I18nService,
     private dialog: MatDialog
   ) {}
 
@@ -128,6 +128,7 @@ export class ProjectCalculatorComponent implements OnInit, OnDestroy {
   public t(key: string): string { return this.i18n.t(key); }
   public cur(): string { return this.i18n.getCurrencySymbol(this.config?.currency || 'EUR'); }
   public curLabel(): string { return this.config?.currency || 'EUR'; }
+  public getAvailableCurrencies(): string[] { return this.i18n.getAvailableCurrencies(); }
 
   public exportBackup() {
     const backup = {
