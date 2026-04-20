@@ -60,14 +60,20 @@
   }
 
     .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    .logo-img { height: 48px; width: auto; object-fit: contain; }
-    h1 { font-size: 1.25rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      .logo-img { height: 44px; width: auto; object-fit: contain; }
+      h1 { font-size: 1.15rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; white-space: nowrap; }
+      p { font-size: 0.7rem; opacity: 0.8; margin: 0; font-weight: 500; }
 
-    p { font-size: 0.75rem; opacity: 0.9; margin: 0; font-weight: 500; }
-  }
+      @media (max-width: 600px) {
+        gap: 8px;
+        .logo-img { height: 28px; }
+        h1 { font-size: 0.9rem; }
+        p { display: none !important; } // Forzar ocultación en móvil
+      }
+    }
 
   .header-actions {
     display: flex;
@@ -138,8 +144,112 @@
   margin: 0 auto;
   width: 100%;
 
-  @media (max-width: 1200px) { grid-template-columns: 220px 1fr; .result-sidebar { display: none; } }
-  @media (max-width: 800px) { grid-template-columns: 1fr; .project-rail { display: none; } }
+    @media (max-width: 1200px) { 
+      grid-template-columns: 240px 1fr;
+      .result-sidebar { 
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1500;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 2px solid var(--c-primary-lt);
+        padding: 0.75rem 1rem;
+        box-shadow: 0 -10px 25px rgba(88, 52, 42, 0.15);
+        display: block !important;
+        
+        .result-card {
+          width: 100%;
+          max-width: 100%;
+          margin: 0;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-around;
+          gap: 0.5rem;
+          padding: 0;
+          background: transparent;
+          box-shadow: none;
+          
+          .result-title, .result-rows { display: none; }
+          .result-total { 
+            margin: 0; 
+            border: none; 
+            padding: 0;
+            span { font-size: 0.65rem; color: var(--c-muted); text-transform: uppercase; display: block; }
+            strong { font-size: 1rem; color: var(--c-primary-dk); }
+          }
+          .result-pvp { 
+            margin: 0; 
+            background: var(--c-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 12px;
+            color: white;
+            .pvp-label { font-size: 0.65rem; color: rgba(255,255,255,0.9); }
+            .pvp-value { font-size: 1.1rem; color: white; font-weight: 900; }
+            .pvp-hint { display: none; } 
+          }
+        }
+      }
+    }
+
+  @media (max-width: 800px) { 
+    display: block !important; // Matamos el grid para evitar conflictos
+    width: 100vw;
+    overflow-x: hidden;
+    
+    .project-rail { 
+      position: fixed;
+      left: -280px;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      height: 100vh;
+      z-index: 2100;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 10px 0 30px rgba(0,0,0,0.2);
+      display: flex !important;
+      background: white;
+      
+      &.open { left: 0; }
+    }
+
+    .rail-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(88, 52, 42, 0.5);
+      z-index: 2000;
+      backdrop-filter: blur(4px);
+    }
+
+    .main-area { 
+      padding: 0.75rem;
+      padding-bottom: 110px; // Espacio exacto para el footer
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.burger-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  @media (max-width: 800px) { display: flex; align-items: center; }
 }
 
 .project-rail {
@@ -226,7 +336,18 @@
     mat-icon { font-size: 18px; width: 18px; height: 18px; }
     &:hover { background: var(--c-border); }
   }
+
+  .rail-mobile-extras {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
+
+// UTILITIES
+.desktop-only { @media (max-width: 800px) { display: none !important; } }
+.mobile-only { @media (min-width: 801px) { display: none !important; } }
 
 // =========================================================
 // MAIN AREA & CARDS
@@ -237,6 +358,13 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  flex: 1;
+
+  @media (max-width: 800px) {
+    padding: 1rem;
+    padding-bottom: 120px; // Espacio para el footer fijo
+    width: 100%;
+  }
 }
 
 .project-header {
@@ -281,7 +409,21 @@
     }
   }
 
-  .project-actions { display: flex; gap: 0.5rem; }
+  .project-actions { 
+    display: flex; 
+    gap: 0.5rem; 
+  }
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    
+    .project-actions {
+      flex-wrap: wrap;
+      button { flex: 1; min-width: calc(50% - 0.5rem); }
+    }
+  }
 }
 
 .tabs-row {
@@ -299,7 +441,16 @@
   }
 }
 
-.tab-content { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.tab-content { 
+  padding: 2rem; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1rem; 
+  
+  @media (max-width: 600px) {
+    padding: 1rem;
+  }
+}
 
 // ---- Material Card ----
 .mat-card {
@@ -316,6 +467,15 @@
     align-items: center;
     gap: 12px;
     border-bottom: 1px solid var(--c-border);
+
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+      gap: 8px;
+      .mat-name-field { font-size: 0.85rem; }
+      .mat-cost-badge { order: 3; width: 100%; text-align: center; margin-top: 4px; }
+      .btn-remove { order: 2; }
+    }
 
     .mat-type-icon { color: var(--c-primary); }
     .mat-name-field {
@@ -337,7 +497,17 @@
     }
   }
 
-  .mat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; padding: 1.25rem; }
+  .mat-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 1rem; 
+    padding: 1.25rem; 
+    
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+  }
   .mat-detail-grid {
     background: #fffefe;
     border-top: 1px dashed var(--c-border);
@@ -348,6 +518,12 @@
     background-image: radial-gradient(var(--c-primary-lt) 0.5px, transparent 0.5px);
     background-size: 10px 10px;
     background-color: #fff9f9;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      padding: 1rem;
+      .field-group { width: 100%; }
+    }
   }
 }
 
@@ -388,7 +564,31 @@
   align-items: flex-end;
   gap: 1rem;
   flex-wrap: wrap;
+  position: relative;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding-right: 3rem; // Espacio para el botón X
+  }
 }
+
+.inline-cost {
+  font-weight: 800;
+  color: var(--c-primary);
+  font-size: 0.95rem;
+  padding-bottom: 0.5rem;
+  @media (max-width: 600px) {
+    margin-top: -0.25rem;
+    border-top: 1px solid var(--c-border-lt);
+    padding-top: 0.5rem;
+  }
+}
+
+.flex-2 { flex: 2; @media (max-width: 600px) { flex: none; width: 100%; } }
+.flex-3 { flex: 3; @media (max-width: 600px) { flex: none; width: 100%; } }
+.w-80 { width: 80px; @media (max-width: 600px) { width: 100%; } }
 
 .section-divider {
   display: flex;
@@ -721,6 +921,10 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
     margin-top: 1rem;
+    
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
   }
   .recent-item {
     background: white;
@@ -863,5 +1067,88 @@
   padding: 0 !important;
   border-radius: var(--radius-lg) !important;
   overflow: hidden;
+}
+
+
+
+// =========================================================
+// CONFIG & WORKSHOP RESPONSIVE
+// =========================================================
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.config-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+
+  .config-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    color: var(--c-primary-dk);
+    font-size: 0.9rem;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--c-primary); }
+  }
+}
+
+.config-scope-banner {
+  background: var(--c-accent-lt);
+  border: 1px solid var(--c-accent);
+  padding: 0.8rem 1.25rem;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--c-text);
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+    button { width: 100%; }
+  }
+}
+
+// Global UI Fixes for Mobile Data
+@media (max-width: 600px) {
+  .field-group {
+    width: 100%;
+    label { font-size: 0.75rem; } // More readable on mobile
+  }
+
+  .slim-input, .slim-select ::ng-deep .mat-mdc-select-trigger {
+    padding: 0.75rem !important; // Larger touch target
+    font-size: 1rem !important; // Prevent zoom on iOS
+  }
+
+  .btn-add {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem !important;
+  }
+
+  .section-divider {
+    font-size: 0.9rem;
+    margin-top: 2rem;
+  }
 }
 

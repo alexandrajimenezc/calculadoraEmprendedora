@@ -56,6 +56,7 @@ export class ProjectCalculatorComponent implements OnInit, OnDestroy {
   public softwares: SoftwareSuscripcion[] = [];
   public viewMode: 'dashboard' | 'workshop' = 'dashboard';
   public selectedTabIndex = 0;
+  public isRailOpen = false;
 
   public tapetePresets = [
     { nombre: 'Cricut Maker/Explore (Standard) 12x12"', marca: 'Cricut', modelo: 'Standard', tamanio: '30.5x30.5 cm', precioRef: 15 },
@@ -103,6 +104,7 @@ export class ProjectCalculatorComponent implements OnInit, OnDestroy {
   public startNewProject() {
     this.viewMode = 'dashboard';
     this.selectedTabIndex = 0;
+    this.isRailOpen = false;
     const project = this.state.createNewProject();
     this.state.setCurrentProject(project);
   }
@@ -110,6 +112,7 @@ export class ProjectCalculatorComponent implements OnInit, OnDestroy {
   public loadProject(project: Project) {
     this.viewMode = 'dashboard';
     this.selectedTabIndex = 0;
+    this.isRailOpen = false;
     this.state.setCurrentProject(structuredClone(project));
   }
 

@@ -18,28 +18,28 @@ export class ExportService {
       ['--- MATERIALES ---', '', ''],
       ['Nombre', 'Tipo', 'Costo Real'],
       ...project.materiales.map(m => [
-        m.nombre,
-        `${m.tipoMaterial} (Merma: ${m.porcentajeMerma}%)`,
+        this.sanitizeCell(m.nombre),
+        `${this.sanitizeCell(m.tipoMaterial)} (Merma: ${m.porcentajeMerma}%)`,
         (m.costoCalculado || 0).toFixed(2)
       ]),
       ['', '', ''],
       ['--- INSUMOS ---', '', ''],
       ['Nombre', 'Rendimiento', 'Costo Prorrateado'],
       ...project.insumos.map(i => [
-        i.nombre,
+        this.sanitizeCell(i.nombre),
         `${i.rendimiento} usos`,
         (i.precio / (i.rendimiento || 1)).toFixed(2)
       ]),
       ['', '', ''],
       ['--- TAPETES DE CORTE ---', '', ''],
       ...project.tapetes.map(t => [
-        t.tapeteNombre,
+        this.sanitizeCell(t.tapeteNombre),
         `${t.pasadasEnProyecto} pasadas`,
         (t.costoCalculado || 0).toFixed(2)
       ]),
       ['', '', ''],
       ['--- MANO DE OBRA ---', '', ''],
-      ...project.manoDeObra.map(l => [l.descripcion, `${l.tiempoMinutos} min`, '']),
+      ...project.manoDeObra.map(l => [this.sanitizeCell(l.descripcion), `${l.tiempoMinutos} min`, '']),
       ['', '', ''],
       ['--- RESUMEN FINANCIERO ---', '', ''],
       ['Costo Tapetes de Corte', '', project.costoTapetes.toFixed(2)],
@@ -53,6 +53,20 @@ export class ExportService {
 
     const csvContent = rows.map(row => row.join(';')).join('\n');
     this.downloadFile(csvContent, `Presupuesto_${project.nombre.replace(/\s+/g, '_')}.csv`);
+  }
+
+  /**
+   * Protege contra CSV Injection (Excel Formula Injection)
+   * Si una celda empieza por caracteres que Excel interpreta como fórmula,
+   * le anteponemos una comilla simple para forzar que sea texto.
+   */
+  private sanitizeCell(value: string | undefined): string {
+    if (!value) return '';
+    const unsafeChars = ['=', '+', '-', '@', '\t', '\r'];
+    if (unsafeChars.some(char => value.startsWith(char))) {
+      return `'${value}`;
+    }
+    return value;
   }
 
   private downloadFile(content: string, fileName: string): void {
