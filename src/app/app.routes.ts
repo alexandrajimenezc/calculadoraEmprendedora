@@ -4,8 +4,9 @@ import { HistoryComponent } from './features/history/history.component';
 import { ProjectCalculatorComponent } from './features/project-calculator/project-calculator.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'calcular', pathMatch: 'full' },
-  { path: 'calcular', component: CalculatorComponent },
+  { path: '', redirectTo: 'calculadora', pathMatch: 'full' },
   { path: 'calculadora', component: ProjectCalculatorComponent },
+  { path: 'simple', component: CalculatorComponent },
   { path: 'historial', component: HistoryComponent },
 ];
+

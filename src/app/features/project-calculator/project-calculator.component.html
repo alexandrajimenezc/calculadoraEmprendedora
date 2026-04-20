@@ -1,389 +1,403 @@
-<div class="app-container">
-  <mat-card class="calculator-container">
-    <div class="paraparatech-credit">
-      <!-- <img src="../../assets/PARAPARATECH.png" alt="ParaparaTech Logo" /> -->
-      <span
-        >Una solución de <strong>soygeekgirl</strong> como
-        <strong>ParaparaTech</strong> 💡</span
-      >
-    </div>
+<div class="app-wrapper">
 
-    <div>
-      <p>
-        🎨 Calculadora de Costos para Papelería Creativa Gratis, práctica y
-        pensada para ti Esta herramienta ha sido creada con mucho cariño para
-        que tú, que diseñas y vendes papelería personalizada (stickers, vinilos,
-        toppers, etiquetas, etc.), puedas calcular tus precios de forma clara,
-        profesional y sin complicarte.
-      </p>
-      Aquí puedes:
-      <ul>
-        <li>Calcular el costo real por unidad o proyecto</li>
-        <li>
-          Incluir materiales, tiempo, mano de obra y margen Tomar decisiones de
-          precio más claras
-        </li>
-        <li>🚫 No necesitas pagar nada</li>
-        <li>
-          Pero si te ayuda, puedes invitarme un café virtual y contribuir a que
-          este proyecto siga siendo gratuito, útil y con más funciones nuevas
-        </li>
-        <li>
-          💜 Haz tu donación desde 5$ en
-          <a href="https://ko-fi.com/soygeekgirl" target="_blank"
-            >ko-fi soygeekgirl
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <img src="logo.png" alt="Logo" class="logo-img">
+        <div>
+          <h1>{{ t('App_Title') }}</h1>
+          <p>{{ t('App_Subtitle') }}</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="demo-btn" (click)="loadDemo()">
+          {{ t('Btn_Demo') }}
+        </button>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/unregalodealex" target="_blank" title="Instagram @unregalodealex" class="social-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
-        </li>
-        <li>
-          Usa desde la web en ordenador/pc para que puedas aprovechar guardar en
-          local ...(se guarda automático)
-        </li>
-      </ul>
+          <a href="https://www.tiktok.com/@soygeekgirl" target="_blank" title="TikTok @soygeekgirl" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47-.13 3.1-.11 6.22-.12 9.33-.03 2.54-1.25 5.16-3.61 6.22-3.32 1.62-7.85.12-9.01-3.41-1.09-3.23.82-7.51 4.25-8.24.47-.11.96-.15 1.44-.14v4.03c-.85.09-1.85.35-2.31 1.2-.56 1.05-.18 2.63.85 3.19 1.11.7 2.82.35 3.51-.77.34-.54.42-1.21.39-1.84-.01-4.74-.01-9.48-.01-14.22-.01-.36-.02-.72.03-1.07.21-1.34.81-2.61 1.07-3.96z"/></svg>
+          </a>
+        </div>
+
+        <a href="https://ko-fi.com/soygeekgirl" target="_blank" class="kofi-btn">
+          ☕ Ko-fi
+        </a>
+      </div>
     </div>
-    <div style="text-align: center; margin-top: 1.5rem">
-      <a
-        href="https://ko-fi.com/soygeekgirl"
-        target="_blank"
-        class="donate-btn"
-      >
-        ☕ Invítame un café en Ko-fi
-      </a>
-    </div>
+  </header>
 
-    <h1>CONFIGURACIÓN BASE</h1>
-    <mat-card class="calculator-section">
-      <mat-card>
-        <mat-form-field>
-          <mat-label>Horas de trabajo semanales</mat-label>
-          <input matInput [(ngModel)]="jobHour" (ngModelChange)="calculateFixedCostWithProfit()" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>% Beneficio</mat-label>
-          <input matInput [(ngModel)]="marginPercent" (ngModelChange)="calculateFixedCostWithProfit()"/>
-        </mat-form-field>
-        <h2>Gastos fijos</h2>
-        <div class="container-btn">
-          <button (click)="addCustomService()">Añadir Gasto</button>
-        </div>
-        <div
-          *ngFor="let service of services; let i = index"
-          class="material-card"
-        >
-          <mat-form-field>
-            <mat-label>Nombre del gasto o servicio</mat-label>
-            <input matInput [(ngModel)]="service.name" />
-          </mat-form-field>
+  <div class="app-body">
 
-          <mat-form-field>
-            <mat-label>Tipo</mat-label>
-            <mat-select [(ngModel)]="service.type">
-              <mat-option
-                *ngFor="let type of typeServices"
-                [value]="type.name"
-                >{{ type.name }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Costo del servicio</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="service.price"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Dias de uso</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="service.days"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <button mat-icon-button color="warn" (click)="removeService(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </mat-card>
-      <p>
-        <strong>Gastos fijos por unidad:</strong>
+    <!-- ===== PROJECT RAIL ===== -->
+    <nav class="project-rail">
+      <button class="rail-new-btn" (click)="startNewProject()">
+        <span>+</span> {{ t('Btn_New') }}
+      </button>
 
-        {{ calculateFixedCostWithProfit() | number : "1.2-2" }} €
-      </p>
-    </mat-card>
-    <mat-card class="calculator-section">
-      <mat-card>
-        <h2>Depreciación de equipos</h2>
-        <div class="container-btn">
-          <button (click)="addMachine()">Añadir Equipo</button>
-        </div>
-        <div
-          *ngFor="let machine of machines; let i = index"
-          class="material-card"
-        >
-          <mat-form-field>
-            <mat-label>Nombre del Equipo</mat-label>
-            <input matInput [(ngModel)]="machine.name" />
-          </mat-form-field>
+      <div class="rail-label">{{ t('Rail_MyProjects') }}</div>
+      <div
+        *ngFor="let p of projects"
+        class="rail-item"
+        [class.active]="currentProject?.id === p.id"
+        (click)="loadProject(p)">
+        <mat-icon class="rail-icon">receipt_long</mat-icon>
+        <span class="rail-name">{{ p.nombre }}</span>
+        <button class="rail-delete" (click)="$event.stopPropagation(); deleteProject(p)">✕</button>
+      </div>
 
-          <mat-form-field>
-            <mat-label>Tipo de Maquina</mat-label>
-            <mat-select [(ngModel)]="machine.model">
-              <mat-option
-                *ngFor="let type of typesMachines"
-                [value]="type.name"
-                >{{ type.name }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Costo de la maquina</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="machine.price"
-              (ngModelChange)="calculateDepreciation(i)"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Vida útil de la maquina</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="machine.years"
-              (ngModelChange)="calculateDepreciation(i)"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Uso de la maquina por mes</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="machine.lifespan"
-              (ngModelChange)="calculateDepreciation(i)"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Costo de Depreciación</mat-label>
-            <input
-              matInput
-              type="number"
-              readonly="true"
-              [(ngModel)]="machine.depreciation"
-              name="servicesQty{{ i }}"
-            />
-          </mat-form-field>
-          <button mat-icon-button (click)="removeMachine(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </mat-card>
-    </mat-card>
-  </mat-card>
+      <div *ngIf="projects.length === 0" class="rail-empty">
+        {{ t('Rail_Empty') }}
+      </div>
 
-  <mat-card class="calculator-container">
-    <h1>Calculadora de Costos de Emprendimiento</h1>
+      <div class="rail-footer">
+        <div class="rail-label">{{ t('Rail_Tools') }}</div>
+        <button class="rail-secondary-btn" (click)="exportBackup()">
+          <mat-icon>cloud_download</mat-icon> {{ t('Rail_Export') }}
+        </button>
+        <button class="rail-secondary-btn" (click)="fileInput.click()">
+          <mat-icon>cloud_upload</mat-icon> {{ t('Rail_Import') }}
+        </button>
+        <input #fileInput type="file" (change)="onImportBackup($event)" style="display: none" accept=".json">
 
-    <!-- Datos generales -->
-    <h2>{{ projectName }}</h2>
-    <mat-card>
-      <mat-form-field appearance="fill">
-        <mat-label>Nombre</mat-label>
-        <input matInput [(ngModel)]="projectName" />
-      </mat-form-field>
-    </mat-card>
-    <mat-card class="calculator-section">
-      <mat-card>
-        <h2>Materiales</h2>
-        <div class="container-btn">
-          <button (click)="addCustomMaterial()">Añadir material</button>
+        <div class="rail-divider"></div>
+        
+        <button class="rail-workshop-btn" [class.active]="viewMode === 'workshop'" (click)="openGlobalWorkshop()">
+          <mat-icon>store</mat-icon> <span>{{ t('Tab_Workshop') }}</span>
+        </button>
+      </div>
+    </nav>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-area">
+      
+      <!-- DASHBOARD -->
+      <div *ngIf="!currentProject && viewMode === 'dashboard'" class="dashboard-area">
+         <div class="welcome-box">
+             <div class="welcome-icon">🎨</div>
+             <h2>{{ t('App_Title') }}</h2>
+             <p>Gestiona tus costos, materiales y mano de obra en un solo lugar.</p>
+         </div>
+         
+         <div class="dashboard-grid">
+             <div class="dash-card primary" (click)="startNewProject()">
+                 <mat-icon>add_circle</mat-icon>
+                 <h3>{{ t('Btn_New') }}</h3>
+                 <p>Crea un presupuesto desde cero</p>
+             </div>
+             <div class="dash-card accent" (click)="loadDemo()">
+                 <mat-icon>dashboard_customize</mat-icon>
+                 <h3>{{ t('Btn_Demo') }}</h3>
+                 <p>Explora proyectos de ejemplo</p>
+             </div>
+             <div class="dash-card workshop" (click)="openGlobalWorkshop()">
+                 <mat-icon>store</mat-icon>
+                 <h3>Configurar Mi Taller</h3>
+                 <p>Ajusta sueldos, máquinas y software globales</p>
+             </div>
+         </div>
+
+         <div class="recent-projects" *ngIf="projects.length > 0">
+             <div class="section-divider">
+                 <mat-icon>history</mat-icon>
+                 <span>Proyectos Recientes</span>
+             </div>
+             <div class="recent-grid">
+                 <div *ngFor="let p of projects.slice(0, 3)" class="recent-item" (click)="loadProject(p)">
+                     <mat-icon>receipt_long</mat-icon>
+                     <span>{{ p.nombre }}</span>
+                     <small>{{ p.fecha | date:'shortDate' }}</small>
+                 </div>
+             </div>
+         </div>
+      </div>
+
+      <!-- CONTENT (Tabs) -->
+      <div *ngIf="currentProject || viewMode === 'workshop'" class="content-wrapper">
+        
+        <div class="project-header" *ngIf="currentProject">
+          <div class="project-name-field">
+            <mat-icon>edit</mat-icon>
+            <input
+              class="project-name-input"
+              [(ngModel)]="currentProject.nombre"
+              (ngModelChange)="recalculate()"
+              [placeholder]="t('Placeholder_ProjectName')">
+          </div>
+          <div class="project-meta">
+            <label>{{ t('Label_Unidades') }}</label>
+            <input type="number" class="meta-input" [(ngModel)]="currentProject.unidadesProduced" (ngModelChange)="recalculate()">
+          </div>
+          <div class="project-actions">
+            <button class="btn-save" (click)="saveCurrentProject()" matTooltip="Guardar cambios">
+              <mat-icon>save</mat-icon> {{ t('Btn_Save') }}
+            </button>
+            <button class="btn-export pdf-btn" (click)="exportPDF()" matTooltip="Descargar presupuesto en PDF">
+              <mat-icon>picture_as_pdf</mat-icon> PDF
+            </button>
+            <button class="btn-export" (click)="exportCSV()" matTooltip="Descargar en Excel/CSV">
+              <mat-icon>download</mat-icon> {{ t('Btn_Excel') }}
+            </button>
+          </div>
         </div>
 
-        <div
-          *ngFor="let material of materials; let i = index"
-          class="material-card"
-        >
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input
-              matInput
-              [(ngModel)]="material.name"
-              name="materialName{{ i }}"
-            />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>Tipo</mat-label>
-            <mat-select [(ngModel)]="material.type" name="materialType{{ i }}">
-              <mat-option
-                *ngFor="let type of typesMaterial"
-                [value]="type.value"
-                >{{ type.label }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-          @if(material.type =='paquete'){
-          <mat-form-field>
-            <mat-label>Cantidad del paquete</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="material.quantity"
-              name="materialQty{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Cantidad usada</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="material.quantityUse"
-              name="materialQty{{ i }}"
-            />
-          </mat-form-field>
-          } @if(material.type =='peso'){
-          <mat-form-field>
-            <mat-label>Peso</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="material.weight"
-              name="materialWeigth{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Unidad de medida</mat-label>
-            <mat-select
-              [(ngModel)]="material.units"
-              name="materialUnits{{ i }}"
-            >
-              <mat-option *ngFor="let type of typesUnit" [value]="type.value">{{
-                type.label
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          } @if(material.type =='cuadrado'){
-          <mat-form-field>
-            <mat-label>Tamaño de hoja</mat-label>
-            <mat-select
-              (ngModelChange)="calculateCostByType(material)"
-              [(ngModel)]="material.sheetType"
-              name="materialType{{ i }}"
-            >
-              <mat-option *ngFor="let type of sheetTypes" [value]="type">{{
-                type.label
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Ancho</mat-label>
-            <input
-              matInput
-              [(ngModel)]="material.width"
-              (ngModelChange)="calculateCostByType(material)"
-              name="materialWidth{{ i }}"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Largo</mat-label>
-            <input
-              matInput
-              [(ngModel)]="material.height"
-              (ngModelChange)="calculateCostByType(material)"
-              name="materialHeight{{ i }}"
-            />
-          </mat-form-field>
-          Puedes crear aproximadamente {{ this.manyCuadrados }} en el tamaño de
-          hoja seleccionado. } @if(material.type =='unidad'){
-          <mat-form-field>
-            <mat-label>Unidades</mat-label>
-            <input
-              matInput
-              [(ngModel)]="material.single"
-              name="materialName{{ i }}"
-            />
-          </mat-form-field>
-          } @if(material.type =='metro'){
-          <mat-form-field>
-            <mat-label>Metros</mat-label>
-            <input
-              matInput
-              [(ngModel)]="material.name"
-              name="materialName{{ i }}"
-            />
-          </mat-form-field>
-          }
-
-          <mat-form-field>
-            <mat-label>Precio</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="material.price"
-              name="materialPrice{{ i }}"
-            />
-          </mat-form-field>
-
-          <button mat-icon-button color="warn" (click)="removeMaterial(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </mat-card>
-
-      <mat-card>
-        <h2>Insumos</h2>
-        <div class="container-btn">
-          <button (click)="addInsumo()">Añadir insumo</button>
+        <div class="project-header workshop-header" *ngIf="!currentProject && viewMode === 'workshop'">
+            <div class="project-name-field">
+              <mat-icon>store</mat-icon>
+              <h2 style="margin:0">Configuración Global de Mi Taller</h2>
+            </div>
+            <button class="btn-save" (click)="viewMode = 'dashboard'">
+              <mat-icon>home</mat-icon> Volver al Inicio
+            </button>
         </div>
 
-        <div *ngFor="let insumo of insumos; let j = index" class="insumo-card">
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input
-              matInput
-              [(ngModel)]="insumo.name"
-              name="insumoName{{ j }}"
-            />
-          </mat-form-field>
+        <div class="tabs-row">
+          <mat-tab-group animationDuration="200ms" class="full-tabs" [(selectedIndex)]="selectedTabIndex">
+            
+            <mat-tab *ngIf="currentProject">
+              <ng-template mat-tab-label><mat-icon>inventory_2</mat-icon>&nbsp;{{ t('Tab_Materials') }}</ng-template>
+              <div class="tab-content">
+                <div class="help-bar">{{ t('Help_Materials') }}</div>
+                <div *ngFor="let mat of currentProject.materiales; let i = index" class="mat-card">
+                  <div class="mat-card-header">
+                    <mat-icon class="mat-type-icon">{{ getMaterialIcon(mat.tipoMaterial) }}</mat-icon>
+                    <input class="mat-name-field" [(ngModel)]="mat.nombre" [placeholder]="t('Placeholder_MaterialName')">
+                    <span class="mat-cost-badge">{{ mat.costoCalculado | number:'1.2-4' }} {{ cur() }}</span>
+                    <button class="btn-remove" (click)="removeMaterial(i)">✕</button>
+                  </div>
+                  <div class="mat-grid">
+                    <div class="field-group">
+                      <label>{{ t('Field_Type') }}</label>
+                      <mat-select class="slim-select" [(ngModel)]="mat.tipoMaterial" (selectionChange)="recalculate()">
+                        <mat-option value="hojaCompleta">{{ t('Type_Sheet') }}</mat-option>
+                        <mat-option value="cuadrado">{{ t('Type_Area') }}</mat-option>
+                        <mat-option value="unidad">{{ t('Type_Unit') }}</mat-option>
+                        <mat-option value="paquete">{{ t('Type_Package') }}</mat-option>
+                        <mat-option value="bote">{{ t('Type_Pot') }}</mat-option>
+                        <mat-option value="metro">{{ t('Type_Meter') }}</mat-option>
+                        <mat-option value="peso">{{ t('Type_Weight') }}</mat-option>
+                      </mat-select>
+                    </div>
+                    <div class="field-group"><label>{{ t('Field_Price') }} ({{ cur() }})</label><input type="number" class="slim-input" [(ngModel)]="mat.costo" (ngModelChange)="recalculate()"></div>
+                    <div class="field-group"><label>{{ t('Field_Waste') }}</label><input type="number" class="slim-input" [(ngModel)]="mat.porcentajeMerma" (ngModelChange)="recalculate()"></div>
+                  </div>
+                  
+                  <div class="mat-detail-grid" *ngIf="mat.tipoMaterial === 'hojaCompleta'">
+                    <div class="field-group"><label>{{ t('Field_Sheets_Pack') }}</label><input type="number" class="slim-input" [(ngModel)]="mat.hojasTotalesCompradas" (ngModelChange)="recalculate()"></div>
+                    <div class="field-group"><label>{{ t('Field_Sheets_Used') }}</label><input type="number" class="slim-input" [(ngModel)]="mat.hojasUsadasEnProyecto" (ngModelChange)="recalculate()"></div>
+                  </div>
+                  
+                  <div class="mat-detail-grid" *ngIf="mat.tipoMaterial === 'unidad'">
+                    <div class="field-group"><label>Cantidad pack</label><input type="number" class="slim-input" [(ngModel)]="mat.cantidadComprada" (ngModelChange)="recalculate()"></div>
+                    <div class="field-group"><label>Usado</label><input type="number" class="slim-input" [(ngModel)]="mat.cantidadUsadaUnidad" (ngModelChange)="recalculate()"></div>
+                  </div>
 
-          <mat-form-field>
-            <mat-label>Precio</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="insumo.price"
-              name="insumoPrice{{ j }}"
-            />
-          </mat-form-field>
+                  <div class="mat-detail-grid" *ngIf="mat.tipoMaterial === 'metro'">
+                    <div class="field-group"><label>Largo Total (m)</label><input type="number" class="slim-input" [(ngModel)]="mat.largoMaterial" (ngModelChange)="recalculate()"></div>
+                    <div class="field-group"><label>Largo Utilizado (m)</label><input type="number" class="slim-input" [(ngModel)]="mat.largoUtilizadoMetro" (ngModelChange)="recalculate()"></div>
+                  </div>
+                </div>
+                <button class="btn-add" (click)="addMaterial()"><mat-icon>add_circle_outline</mat-icon> {{ t('Btn_Add_Material') }}</button>
 
-          <mat-form-field>
-            <mat-label>Rendimiento</mat-label>
-            <input
-              matInput
-              type="number"
-              [(ngModel)]="insumo.yield"
-              name="insumoYield{{ j }}"
-            />
-          </mat-form-field>
+                <div class="section-divider"><mat-icon>grid_on</mat-icon><span>{{ t('Section_Tapetes') }}</span></div>
+                <div *ngFor="let tapeteUso of currentProject.tapetes; let t = index" class="inline-row">
+                  <div class="field-group" style="flex:2">
+                      <label>Tapete</label>
+                      <mat-select class="slim-select" [(ngModel)]="tapeteUso.tapeteNombre" (selectionChange)="onTapetePresetSelected(tapeteUso, tapeteUso.tapeteNombre)">
+                        <mat-option *ngFor="let preset of tapetePresets" [value]="preset.nombre">{{ preset.nombre }}</mat-option>
+                      </mat-select>
+                  </div>
+                  <div class="field-group" style="width: 80px"><label>Pasadas</label><input type="number" class="slim-input" [(ngModel)]="tapeteUso.pasadasEnProyecto" (ngModelChange)="recalculate()"></div>
+                  <div class="inline-cost">{{ tapeteUso.costoCalculado | number:'1.2-2' }} {{ cur() }}</div>
+                  <button class="btn-remove-sm" (click)="removeTapeteUso(t)">✕</button>
+                </div>
+                <button class="btn-add" (click)="addTapeteUso()"><mat-icon>add_circle_outline</mat-icon> {{ t('Btn_Add_Tapete') }}</button>
+              </div>
+            </mat-tab>
 
-          <button mat-icon-button color="warn" (click)="removeInsumo(j)">
-            <mat-icon>delete</mat-icon>
-          </button>
+            <mat-tab *ngIf="currentProject">
+              <ng-template mat-tab-label><mat-icon>palette</mat-icon>&nbsp;{{ t('Tab_Insumos') }}</ng-template>
+              <div class="tab-content">
+                <div class="section-divider"><mat-icon>auto_fix_high</mat-icon><span>{{ t('Section_Insumos') }}</span></div>
+                <div *ngFor="let insumo of currentProject.insumos; let j = index" class="inline-row">
+                   <div class="field-group" style="flex:2"><label>Nombre</label><input class="slim-input" [(ngModel)]="insumo.nombre"></div>
+                   <div class="field-group"><label>Precio</label><input type="number" class="slim-input" [(ngModel)]="insumo.precio" (ngModelChange)="recalculate()"></div>
+                   <div class="field-group"><label>Rinde (Proy)</label><input type="number" class="slim-input" [(ngModel)]="insumo.rendimiento" (ngModelChange)="recalculate()"></div>
+                   <div class="inline-cost">{{ (insumo.precio / (insumo.rendimiento || 1)) | number:'1.2-2' }} {{ cur() }}</div>
+                   <button class="btn-remove-sm" (click)="removeInsumo(j)">✕</button>
+                </div>
+                <button class="btn-add" (click)="addInsumo()"><mat-icon>add_circle_outline</mat-icon> {{ t('Btn_Add_Insumo') }}</button>
+                
+                <div class="section-divider" style="margin-top:2rem"><mat-icon>timer</mat-icon><span>{{ t('Section_Labor') }}</span></div>
+                <div *ngFor="let task of currentProject.manoDeObra; let k = index" class="inline-row">
+                   <div class="field-group" style="flex:3"><label>Tarea</label><input class="slim-input" [(ngModel)]="task.descripcion"></div>
+                   <div class="field-group"><label>Minutos</label><input type="number" class="slim-input" [(ngModel)]="task.tiempoMinutos" (ngModelChange)="recalculate()"></div>
+                   <button class="btn-remove-sm" (click)="removeLabor(k)">✕</button>
+                </div>
+                <div class="total-time-bar" *ngIf="currentProject.manoDeObra.length > 0">
+                  <mat-icon>schedule</mat-icon>{{ t('Time_Total') }}: <strong>{{ getTotalMinutes() }} min</strong> — {{ t('Time_Cost') }}: <strong>{{ getLaborCost() | number:'1.2-2' }} {{ cur() }}</strong>
+                </div>
+                <button class="btn-add" (click)="addLabor()"><mat-icon>add_circle_outline</mat-icon> {{ t('Btn_Add_Task') }}</button>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label><mat-icon>store</mat-icon>&nbsp;{{ t('Tab_Workshop') }}</ng-template>
+              <div class="tab-content">
+                <div class="config-scope-banner" *ngIf="currentProject">
+                  <mat-icon>settings_suggest</mat-icon>
+                  <div style="flex:1"><span>Configurando proyecto: <strong>{{ currentProject.nombre }}</strong></span></div>
+                  <button mat-stroked-button (click)="resetProjectConfigToGlobal()"><mat-icon>restore</mat-icon> Restablecer</button>
+                </div>
+
+                <div class="config-grid">
+                  <div class="config-card">
+                    <div class="config-card-title"><mat-icon>payments</mat-icon> {{ t('Config_Title_Labor') }}</div>
+                    <div class="mat-grid" style="padding:0">
+                       <div class="field-group">
+                         <label>Salario Base ({{ cur() }}/mes)</label>
+                         @if (currentProject) {
+                           <input type="number" class="slim-input" [(ngModel)]="currentProject.projectConfig!.salarioDeseado" (ngModelChange)="saveProjectConfig()">
+                         } @else {
+                           <input type="number" class="slim-input" [(ngModel)]="config.salarioDeseado" (ngModelChange)="saveConfig()">
+                         }
+                       </div>
+                       <div class="field-group">
+                         <label>Horas Semanales</label>
+                         @if (currentProject) {
+                           <input type="number" class="slim-input" [(ngModel)]="currentProject.projectConfig!.horasSemanales" (ngModelChange)="saveProjectConfig()">
+                         } @else {
+                           <input type="number" class="slim-input" [(ngModel)]="config.horasSemanales" (ngModelChange)="saveConfig()">
+                         }
+                       </div>
+                    </div>
+                  </div>
+                  <div class="config-card">
+                    <div class="config-card-title"><mat-icon>trending_up</mat-icon> {{ t('Config_Title_Profit') }}</div>
+                    <div class="field-group">
+                      <label>Margen de Ganancia (%)</label>
+                      @if (currentProject) {
+                        <input type="number" class="slim-input" [(ngModel)]="currentProject.projectConfig!.margenBeneficio" (ngModelChange)="saveProjectConfig()">
+                      } @else {
+                        <input type="number" class="slim-input" [(ngModel)]="config.margenBeneficio" (ngModelChange)="saveConfig()">
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <div class="section-divider" style="margin-top:2rem"><mat-icon>computer</mat-icon><span>Software</span></div>
+                <div *ngFor="let sw of softwares; let s = index" class="inline-row">
+                   <div class="field-group" style="flex:2"><label>Programa</label><input class="slim-input" [(ngModel)]="sw.nombre" (blur)="saveSoftware()"></div>
+                   <div class="field-group"><label>Precio</label><input type="number" class="slim-input" [(ngModel)]="sw.precio" (ngModelChange)="saveSoftware()"></div>
+                   <button class="btn-remove-sm" (click)="removeSoftware(s)">✕</button>
+                </div>
+                <button class="btn-add" (click)="addSoftware()"><mat-icon>add_circle_outline</mat-icon> Añadir Software</button>
+
+                <div class="section-divider" style="margin-top:2rem"><mat-icon>precision_manufacturing</mat-icon><span>Equipos</span></div>
+                <div *ngFor="let eq of equipments; let e = index" class="mat-card">
+                   <div class="mat-grid">
+                     <div class="field-group" style="grid-column: span 2"><label>Máquina</label><input class="slim-input" [(ngModel)]="eq.nombre" (blur)="saveEquipment()"></div>
+                     <div class="field-group"><label>Inversión</label><input type="number" class="slim-input" [(ngModel)]="eq.precio" (ngModelChange)="saveEquipment()"></div>
+                     <div class="field-group"><label>Vida Útil (años)</label><input type="number" class="slim-input" [(ngModel)]="eq.anosVidaUtil" (ngModelChange)="saveEquipment()"></div>
+                   </div>
+                   <button class="btn-remove-sm" (click)="removeEquipment(e)">✕</button>
+                </div>
+                <button class="btn-add" (click)="addEquipment()"><mat-icon>add_circle_outline</mat-icon> Añadir Máquina</button>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
         </div>
-      </mat-card>
+      </div>
+    </main>
 
-      <mat-card>
-        <h2>Resumen</h2>
-        <p>
-          <strong>Costo total por unidad:</strong>
-          {{ calculateCostPerUnit() | number : "1.2-2" }} €
-        </p>
-      </mat-card>
-    </mat-card>
-  </mat-card>
+    <aside class="result-sidebar" *ngIf="currentProject">
+      <div class="result-card">
+        <div class="result-title"><mat-icon>summarize</mat-icon> Desglose</div>
+        <div class="result-rows">
+          <div class="result-row"><span>Materiales</span><span>{{ getSubtotalMaterials() | number:'1.2-2' }} {{ cur() }}</span></div>
+          <div class="result-row"><span>Insumos</span><span>{{ getSubtotalInsumos() | number:'1.2-2' }} {{ cur() }}</span></div>
+          <div class="result-row"><span>Mano Obra</span><span>{{ getLaborCost() | number:'1.2-2' }} {{ cur() }}</span></div>
+        </div>
+        <div class="result-total">
+          <span>Total Costo</span>
+          <div class="total-with-info">
+            <strong>{{ currentProject.totalCosto | number:'1.2-2' }} {{ cur() }}</strong>
+            <button class="info-btn" (click)="openBreakdown(breakdownTpl)" matTooltip="Ver desglose detallado">
+              <mat-icon>info_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="result-pvp">
+          <div class="pvp-label">PVP Sugerido</div>
+          <div class="pvp-value">{{ currentProject.precioSugerido | number:'1.2-2' }} {{ cur() }}</div>
+          <div class="pvp-hint">{{ t('Label_ProfitMargin') }}: {{ (currentProject.projectConfig || config).margenBeneficio }}%</div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
 </div>
+
+<!-- ===== BREAKDOWN DIALGO TEMPLATE ===== -->
+<ng-template #breakdownTpl>
+  <div class="breakdown-modal">
+    <div class="modal-header">
+      <h3><mat-icon>analytics</mat-icon> Desglose de Costos</h3>
+      <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+    </div>
+    
+    <div class="modal-body" *ngIf="currentProject">
+       <div class="breakdown-list">
+          <div class="breakdown-item">
+            <span class="label">Materiales</span>
+            <span class="value">{{ getSubtotalMaterials() | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Insumos y Extras</span>
+            <span class="value">{{ getSubtotalInsumos() | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Mano de Obra (Horas Trabajadas)</span>
+            <span class="value">{{ getLaborCost() | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Desgaste de Tapetes</span>
+            <span class="value">{{ currentProject.costoTapetes | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Depreciación de Equipos</span>
+            <span class="value">{{ currentProject.depreciacionEquipos | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Gastos Fijos Prorrateados</span>
+            <span class="value" matTooltip="Software + Gastos de Taller (Luz, Internet, Alquiler...) según tiempo del proyecto">{{ currentProject.costoFijoProrrateado | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          
+          <mat-divider style="margin: 10px 0"></mat-divider>
+          
+          <div class="breakdown-item total">
+            <span class="label">COSTO TOTAL DEL PROYECTO</span>
+            <span class="value">{{ currentProject.totalCosto | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          
+          <div class="breakdown-item profit">
+            <span class="label">Margen de Ganancia ({{ (currentProject.projectConfig || config).margenBeneficio }}%)</span>
+            <span class="value">+ {{ getProfitValue() | number:'1.2-2' }} {{ cur() }}</span>
+          </div>
+          
+          <div class="breakdown-price-box">
+             <div class="final-label">PVP Sugerido</div>
+             <div class="final-value">{{ currentProject.precioSugerido | number:'1.2-2' }} {{ cur() }}</div>
+          </div>
+       </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button mat-flat-button color="primary" mat-dialog-close>Entendido</button>
+    </div>
+  </div>
+</ng-template>

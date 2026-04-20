@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary: #9d50bb;
+  --primary-alt: #6e48aa;
+  --secondary: #ff9a9e;
+  --accent: #fad0c4;
+  --background: #f8f9fa;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+  --success: #00b894;
+  --warning: #fdcb6e;
+  --error: #ff7675;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Outfit', 'Roboto', sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+.premium-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px !important;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-alt)) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(157, 80, 187, 0.3);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+
+  mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
