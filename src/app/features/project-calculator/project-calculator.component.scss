@@ -39,6 +39,7 @@
   background: var(--c-bg);
   font-family: 'Outfit', sans-serif;
   color: var(--c-text);
+  overflow-x: hidden; // Evita scroll horizontal
 }
 
 .app-header {
@@ -56,7 +57,12 @@
     justify-content: space-between;
     max-width: 1400px;
     margin: 0 auto;
-    height: 70px;
+    height: 60px;
+    
+    @media (max-width: 600px) {
+      height: 52px;
+      padding: 0; // Quitar offset en móvil
+    }
   }
 
     .logo-area {
@@ -79,6 +85,10 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    
+    @media (max-width: 600px) {
+      gap: 0.5rem;
+    }
   }
 
   .social-icons {
@@ -90,9 +100,12 @@
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      mat-icon { font-size: 20px; width: 20px; height: 20px; }
       &:hover { opacity: 1; transform: translateY(-2px); }
     }
+  }
+  
+  @media (max-width: 600px) {
+    padding: 0 0.75rem;
   }
 }
 
@@ -143,95 +156,141 @@
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  min-height: 0; // Permite que el grid no limite la altura
 
-    @media (max-width: 1200px) { 
-      grid-template-columns: 240px 1fr;
-      .result-sidebar { 
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        z-index: 1500;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-top: 2px solid var(--c-primary-lt);
-        padding: 0.75rem 1rem;
-        box-shadow: 0 -10px 25px rgba(88, 52, 42, 0.15);
-        display: block !important;
-        
-        .result-card {
-          width: 100%;
-          max-width: 100%;
+  // --- TABLET (1200px) ---
+  @media (max-width: 1200px) {
+    grid-template-columns: 240px 1fr;
+
+    .result-sidebar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1500;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-top: 2px solid var(--c-primary-lt);
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 -6px 20px rgba(88,52,42,0.12);
+      display: block !important;
+
+      .result-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        max-width: 900px;
+        margin: 0 auto;
+
+        .result-title, .result-rows { display: none; }
+        .result-total {
+          margin: 0; border: none; padding: 0;
+          span { font-size: 0.65rem; color: var(--c-muted); text-transform: uppercase; display: block; }
+          strong { font-size: 1rem; color: var(--c-primary-dk); }
+        }
+        .result-pvp {
           margin: 0;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-around;
-          gap: 0.5rem;
-          padding: 0;
-          background: transparent;
-          box-shadow: none;
-          
-          .result-title, .result-rows { display: none; }
-          .result-total { 
-            margin: 0; 
-            border: none; 
-            padding: 0;
-            span { font-size: 0.65rem; color: var(--c-muted); text-transform: uppercase; display: block; }
-            strong { font-size: 1rem; color: var(--c-primary-dk); }
-          }
-          .result-pvp { 
-            margin: 0; 
-            background: var(--c-primary);
-            padding: 0.4rem 1rem;
-            border-radius: 12px;
-            color: white;
-            .pvp-label { font-size: 0.65rem; color: rgba(255,255,255,0.9); }
-            .pvp-value { font-size: 1.1rem; color: white; font-weight: 900; }
-            .pvp-hint { display: none; } 
-          }
+          background: var(--c-primary);
+          padding: 0.4rem 1.25rem;
+          border-radius: 20px;
+          .pvp-label { font-size: 0.6rem; color: rgba(255,255,255,0.85); display: block; }
+          .pvp-value { font-size: 1.1rem; color: white; font-weight: 900; }
+          .pvp-hint { display: none; }
         }
       }
     }
 
-  @media (max-width: 800px) { 
-    display: block !important; // Matamos el grid para evitar conflictos
-    width: 100vw;
+    .main-area { padding-bottom: 90px; }
+  }
+
+  // --- MOBILE (800px) --- RADICAL: mata el grid, todo en columna
+  @media (max-width: 800px) {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
-    
-    .project-rail { 
-      position: fixed;
-      left: -280px;
-      top: 0;
-      bottom: 0;
-      width: 280px;
-      height: 100vh;
-      z-index: 2100;
-      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 10px 0 30px rgba(0,0,0,0.2);
-      display: flex !important;
-      background: white;
-      
-      &.open { left: 0; }
+
+    // Rail: fuera de pantalla, se desliza como drawer
+    .project-rail {
+      position: fixed !important;
+      left: -100% !important;
+      top: 0 !important;
+      width: 85vw !important;
+      max-width: 320px !important;
+      height: 100vh !important;
+      z-index: 3000 !important;
+      transition: left 0.3s ease !important;
+      overflow-y: auto !important;
+      background: white !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+
+      &.open {
+        left: 0 !important;
+      }
     }
 
+    // Overlay oscuro detrás del menú
     .rail-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(88, 52, 42, 0.5);
-      z-index: 2000;
-      backdrop-filter: blur(4px);
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2900;
     }
 
-    .main-area { 
-      padding: 0.75rem;
-      padding-bottom: 110px; // Espacio exacto para el footer
-      width: 100%;
-      box-sizing: border-box;
+    // Contenido principal: ocupa TODO el ancho
+    .main-area {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0.75rem !important;
+      padding-bottom: 100px !important; // Espacio para la barra de precio
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
+
+    // Barra de resultados: fija al fondo, muy delgada
+    .result-sidebar {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 2000 !important;
+      background: white !important;
+      border-top: 2px solid var(--c-primary-lt) !important;
+      padding: 0.5rem 1rem !important;
+      box-shadow: 0 -4px 15px rgba(88,52,42,0.15) !important;
+      display: block !important;
+
+      .result-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+
+        .result-title, .result-rows { display: none !important; }
+
+        .result-total {
+          margin: 0; border: none; padding: 0;
+          span { font-size: 0.6rem; color: var(--c-muted); text-transform: uppercase; display: block; }
+          strong { font-size: 0.95rem; font-weight: 800; color: var(--c-primary-dk); }
+        }
+        .result-pvp {
+          background: var(--c-primary);
+          padding: 0.4rem 1rem;
+          border-radius: 20px;
+          margin: 0;
+          .pvp-label { font-size: 0.6rem; color: rgba(255,255,255,0.85); display: block; }
+          .pvp-value { font-size: 1rem; font-weight: 900; color: white; }
+          .pvp-hint { display: none !important; }
+        }
+      }
     }
   }
 }
@@ -379,10 +438,11 @@
 
   .project-name-field {
     flex: 1;
+    min-width: 0; // CRÍTICO: permite que el flex child se encoja correctamente
     display: flex;
     align-items: center;
     gap: 10px;
-    mat-icon { color: var(--c-primary); }
+    mat-icon { color: var(--c-primary); flex-shrink: 0; }
   }
   .project-name-input {
     border: none;
@@ -391,6 +451,7 @@
     font-weight: 800;
     color: var(--c-text);
     width: 100%;
+    min-width: 0; // Permite que el input se encoja dentro del flex
     &::placeholder { color: var(--c-muted-lt); }
   }
 
@@ -668,8 +729,9 @@
   flex-direction: column;
   gap: 1.5rem;
   position: sticky;
-  top: 70px;
-  height: calc(100vh - 70px);
+  top: 60px; // Actualizado para coincidir con el nuevo header height
+  height: calc(100vh - 60px);
+  overflow-y: auto;
 }
 
 .result-card {
@@ -1149,6 +1211,90 @@
   .section-divider {
     font-size: 0.9rem;
     margin-top: 2rem;
+  }
+}
+
+// =========================================================
+// MOBILE OVERRIDES — TOP LEVEL (evita problemas de especificidad Angular)
+// =========================================================
+
+@media (max-width: 800px) {
+
+  // El aside NUNCA debe estar en flujo normal en móvil — siempre fijo al fondo
+  .result-sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;        // Importante: anula cualquier top heredado
+    height: auto !important;     // No ocupar toda la pantalla
+    z-index: 2500 !important;
+    background: white !important;
+    border-top: 2px solid var(--c-primary-lt) !important;
+    border-left: none !important;
+    padding: 0.6rem 1rem !important;
+    box-shadow: 0 -4px 16px rgba(88,52,42,0.15) !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    .result-card {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      gap: 0.5rem !important;
+    }
+
+    .result-title  { display: none !important; }
+    .result-rows   { display: none !important; }
+
+    .result-total {
+      margin: 0 !important;
+      border: none !important;
+      padding: 0 !important;
+      span   { font-size: 0.6rem; color: var(--c-muted); text-transform: uppercase; display: block; }
+      strong { font-size: 0.95rem; font-weight: 800; color: var(--c-primary-dk); }
+    }
+
+    .result-pvp {
+      background: var(--c-primary) !important;
+      padding: 0.4rem 1rem !important;
+      border-radius: 20px !important;
+      margin: 0 !important;
+      border-top: none !important;
+
+      .pvp-label { font-size: 0.6rem; color: rgba(255,255,255,0.85); display: block; }
+      .pvp-value { font-size: 1rem; font-weight: 900; color: white; }
+      .pvp-hint  { display: none !important; }
+    }
+  }
+
+  // El main necesita padding inferior para no quedar tapado por el aside fijo
+  .main-area {
+    padding-bottom: 90px !important;
+  }
+
+  // El rail siempre fuera de pantalla (fixed, no en flujo)
+  .project-rail {
+    position: fixed !important;
+    left: -100vw !important;
+    top: 0 !important;
+    width: min(85vw, 320px) !important;
+    height: 100vh !important;
+    z-index: 3000 !important;
+    overflow-y: auto !important;
+    background: white !important;
+    transition: left 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+
+    &.open {
+      left: 0 !important;
+    }
   }
 }
 
